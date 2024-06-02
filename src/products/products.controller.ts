@@ -3,6 +3,9 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -10,8 +13,20 @@ import {
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
+// express
+// app.use((req, res, next) => {
+//   res.status(201).end('Poka');
+// });
+
 @Controller('products')
 export class ProductsController {
+  // @Get()
+  // // @Redirect('https://google.com', 301)
+  // getAll(@Req() req: Request, @Res() res: Response): string {
+  //   res.status(201).end('Poka');
+  //   return 'get All products';
+  // }
+
   @Get()
   getAll(): string {
     return 'getAll';
@@ -19,10 +34,12 @@ export class ProductsController {
 
   @Get(':id')
   getOne(@Param('id') id: string): string {
-    return 'getOne ' + id;
+    return 'get by id ' + id;
   }
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @Header('Cache-Control', 'none')
   create(@Body() createProductDto: CreateProductDto): string {
     return `Title: ${createProductDto.title} Price: ${createProductDto.price}`;
   }
