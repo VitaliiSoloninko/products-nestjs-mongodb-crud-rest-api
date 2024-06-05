@@ -13,6 +13,7 @@ import {
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsService } from './products.service';
+import { Product } from './schemas/product.schema';
 
 // express
 // app.use((req, res, next) => {
@@ -31,29 +32,32 @@ export class ProductsController {
   // }
 
   @Get()
-  getAll() {
+  getAll(): Promise<Product[]> {
     return this.productsService.getAll();
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string): string {
+  getOne(@Param('id') id: string): Promise<Product> {
     return this.productsService.getById(id);
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @Header('Cache-Control', 'none')
-  create(@Body() createProductDto: CreateProductDto) {
+  create(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productsService.create(createProductDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return 'Remove ' + id;
+  remove(@Param('id') id: string): Promise<Product> {
+    return this.productsService.remove(id);
   }
 
   @Put(':id')
-  update(@Body() updateProductDto: UpdateProductDto, @Param('id') id: string) {
-    return 'Update ' + id;
+  update(
+    @Body() updateProductDto: UpdateProductDto,
+    @Param('id') id: string,
+  ): Promise<Product> {
+    return this.productsService.update(id, updateProductDto);
   }
 }
