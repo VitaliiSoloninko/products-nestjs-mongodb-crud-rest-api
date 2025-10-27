@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-// import * as process from 'process';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // await app.listen(process.env.PORT, '0.0.0.0');
   app.enableCors();
-  await app.listen(3000);
+  const port = process.env.PORT ? Number(process.env.PORT) : 5005;
+  await app.listen(port, '0.0.0.0');
+  console.log(`Server products-mongodb started successfully on port ${port}`);
 }
 bootstrap();

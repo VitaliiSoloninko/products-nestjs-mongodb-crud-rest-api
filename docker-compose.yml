@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  products-nestjs:
+    build: .
+    ports:
+      - '5005:5005'
+    environment:
+      - PORT=5005
+      - MONGODB_URI=mongodb://products-mongodb:27017/products
+    depends_on:
+      - products-mongodb
+  products-mongodb:
+    image: mongo:6.0
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - products_mongodb_data:/data/db
+volumes:
+  products_mongodb_data:

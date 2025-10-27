@@ -8,7 +8,8 @@ import { ProductsModule } from './products/products.module';
   imports: [
     ProductsModule,
     MongooseModule.forRoot(
-      `mongodb+srv://vitaliypulupovuch:YPvglwuVjYpOgjsy@nest-api.d1cwop9.mongodb.net/products`,
+      process.env.MONGODB_URI ||
+        'mongodb+srv://vitaliypulupovuch:YPvglwuVjYpOgjsy@nest-api.d1cwop9.mongodb.net/products',
     ),
   ],
   controllers: [AppController],
